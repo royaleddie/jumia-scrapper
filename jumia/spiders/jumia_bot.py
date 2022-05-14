@@ -15,7 +15,10 @@ class JumiaBotSpider(scrapy.Spider):
                 'product_price': products.css('div.prc::text').get().replace('₦', ''),
                 'rating_count': products.css('div.rev::text').get(),  
             }
-
-        next_page = response.css('a.pg').attrib['href']
-        if next_page is not None:
-            yield response.follow(next_page, callback=self.parse)
+        next_page = response.xpath('//*[@id="jm"]/main/div[2]/div[3]/section/div[2]/a[6]') 
+        if next_page and next_page.attrib['href']: 
+            next_page_url = 'https://jumia.com.ng'+next_page.attrib['href'] 
+            yield {
+                response.follow(next_page_url, callback = self.parse)
+                }
+        
