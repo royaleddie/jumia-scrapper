@@ -18,7 +18,5 @@ class JumiaBotSpider(scrapy.Spider):
         next_page = response.xpath('//*[@id="jm"]/main/div[2]/div[3]/section/div[2]/a[6]') 
         if next_page and next_page.attrib['href']: 
             next_page_url = 'https://jumia.com.ng'+next_page.attrib['href'] 
-            yield {
-                response.follow(next_page_url, callback = self.parse)
-                }
+            yield response.follow(next_page_url, callback = self.parse)
         
